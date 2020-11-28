@@ -1,0 +1,42 @@
+/* Query 1 */
+SELECT COUNT(i.InvoiceId) AS No_of_purchases, i.billingcountry,g.name AS Genre_type
+FROM invoice i
+JOIN invoiceline il ON i.invoiceid=il.invoiceid
+JOIN track t ON t.trackid=il.trackid
+JOIN genre g ON t.genreid=g.genreid
+WHERE i.billingcountry='Austria'
+Group by g.name
+ORDER BY no_of_purchases DESC;
+
+/* Query 2 */
+SELECT AVG(t.milliseconds)AS Average_track_length,g.name AS Genre_type
+FROM Genre g 
+JOIN Track t ON t.genreid = g.genreid
+Group by g.name
+ORDER BY average_track_length DESC;
+
+
+/* Query 3 */
+SELECT e.firstname,e.lastname,Sum(i.total) AS Total_by_agent
+FROM Invoice i
+JOIN Customer c
+ON c.customerId = i.customerId
+JOIN Employee e 
+ON c.supportrepid = e.employeeid
+WHERE i.invoicedate BETWEEN "2013-01-01" AND "2014-01-01"
+GROUP BY e.employeeid
+ORDER BY Total_by_agent DESC;
+
+
+/* Query 4 */
+SELECT COUNT(i.invoiceid)AS Number_of_purchases,g.name AS Genre_type,art.name as Artist_name
+from invoice i
+JOIN invoiceline il ON i.invoiceid=il.invoiceid
+join track t on t.trackid=il.trackid
+JOIN Genre g
+ON t.genreid=g.genreid
+join album a ON t.albumid=a.AlbumId
+join artist art ON art.artistid=a.artistid
+where g.name='Jazz'
+group by art.name
+ORDER BY number_of_purchases DESC;
